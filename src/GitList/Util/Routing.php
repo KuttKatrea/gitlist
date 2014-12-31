@@ -111,11 +111,14 @@ class Routing
             $isWindows = $this->isWindows();
             $quotedPaths = array_map(
                 function ($repo) use ($isWindows) {
-                    $repoName = preg_quote($repo['name']);
-
+                    $repoName = $repo['name'];
+                    // This doesn't seem to be necessary.
+                    // In fact, it creates more problems.
                     if ($isWindows) {
                         $repoName = str_replace('\\', '\\\\', $repoName);
                     }
+
+                    $repoName = preg_quote($repoName);
 
                     return $repoName;
                 },
