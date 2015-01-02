@@ -34,6 +34,7 @@ class Application extends SilexApplication
         $this['date.format'] = $config->get('date', 'format') ? $config->get('date', 'format') : 'd/m/Y H:i:s';
         $this['theme'] = $config->get('app', 'theme') ? $config->get('app', 'theme') : 'default';
         $this['title'] = $config->get('app', 'title') ? $config->get('app', 'title') : 'GitList';
+
         $this['filetypes'] = $config->getSection('filetypes');
         $this['binary_filetypes'] = $config->getSection('binary_filetypes');
         $this['cache.archives'] = $this->getCachePath() . 'archives';
@@ -55,6 +56,7 @@ class Application extends SilexApplication
                                     $config->get('git', 'hidden') : array(),
             'git.default_branch' => $config->get('git', 'default_branch') ?
                                     $config->get('git', 'default_branch') : 'master',
+            'git.ignore_dot_git' => $config->get('git', 'ignore_dot_git'),
         ));
 
         $this->register(new ViewUtilServiceProvider());

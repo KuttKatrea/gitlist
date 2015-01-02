@@ -14,6 +14,7 @@ class Client extends BaseClient
         parent::__construct($options['path']);
         $this->setDefaultBranch($options['default_branch']);
         $this->setHidden($options['hidden']);
+        $this->setIgnoreDotGit($options['ignore_dot_git']);
     }
 
     public function getRepositoryFromName($paths, $repo)
@@ -105,6 +106,10 @@ class Client extends BaseClient
                         $repoName = $file->getFilename();
                     }
 
+                    if ($this->getIgnoreDotGit()) {
+                        $repoName = preg_replace('/\.git$/', '', $repoName);
+                    }
+
                     $repositories[$repoName] = array(
                         'name' => $repoName,
                         'path' => $file->getPathname(),
@@ -159,6 +164,28 @@ class Client extends BaseClient
     protected function setHidden($hidden)
     {
         $this->hidden = $hidden;
+
+        return $this;
+    }
+
+    /**
+     * Get ignore ".git" flag
+     *
+     * @return bool Wheter we should ignore the trailing dot git for repository name
+     */
+    protected function getIgnoreDotGit()
+    {
+        return $this->ignoreDotGit;
+    }
+
+    /**
+     * Set ignore ".git" flag
+     *
+     * @param bool $ignore Wheter we should ignore the trailing dot git for repository name
+     */
+    protected function setIgnoreDotGit($ignore)
+    {
+        $this->ignoreDotGit = !!$ignore;
 
         return $this;
     }
